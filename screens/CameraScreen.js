@@ -294,7 +294,6 @@ const styles = StyleSheet.create({
     maxWidth: '85%',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 10,
   },
   userMsg: {
     backgroundColor: 'rgba(59, 130, 246, 0.9)',
@@ -306,6 +305,7 @@ const styles = StyleSheet.create({
   },
   msgRole: {
     fontSize: 20,
+    marginRight: 10,
   },
   msgText: {
     color: '#fff',
@@ -318,14 +318,13 @@ const styles = StyleSheet.create({
     paddingBottom: 25,
     paddingTop: 12,
     backgroundColor: 'rgba(0, 0, 0, 0.85)',
-    gap: 10,
   },
   actionBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 17,
     borderRadius: 14,
-    gap: 14,
+    marginBottom: 10,
   },
   btn1: { backgroundColor: '#10b981' },
   btn2: { backgroundColor: '#3b82f6' },
@@ -334,6 +333,7 @@ const styles = StyleSheet.create({
   btn5: { backgroundColor: '#8b5cf6' },
   btnEmoji: {
     fontSize: 26,
+    marginRight: 14,
   },
   btnText: {
     color: '#fff',

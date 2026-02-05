@@ -32,7 +32,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.optionsContainer}>
         {/* Camera Assistant Card */}
         <TouchableOpacity
-          style={[styles.card, styles.cameraCard]}
+          style={[styles.card, styles.cameraCard, styles.cardSpacing]}
           onPress={() => navigateTo('Camera', 'Opening Camera Assistant')}
           activeOpacity={0.85}
         >
@@ -59,8 +59,8 @@ export default function HomeScreen({ navigation }) {
 
       {/* Footer Info */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>💡 Tap any card to get started</Text>
-        <Text style={styles.footerText}>🔊 All responses are spoken aloud</Text>
+        <Text style={[styles.footerText, styles.footerSpacing]}>💡 Tap any card to get started</Text>
+        <Text style={[styles.footerText, styles.footerSpacing]}>🔊 All responses are spoken aloud</Text>
         <Text style={styles.footerText}>♿ Screen reader compatible</Text>
       </View>
     </SafeAreaView>
@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
   optionsContainer: {
     flex: 1,
     paddingHorizontal: 20,
-    gap: 20,
     marginBottom: 20,
   },
   card: {
@@ -137,15 +136,20 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     paddingHorizontal: 10,
   },
+  cardSpacing: {
+    marginBottom: 20,
+  },
   footer: {
     paddingHorizontal: 30,
     paddingBottom: 35,
-    gap: 10,
   },
   footerText: {
     fontSize: 14,
     color: '#64748b',
     textAlign: 'center',
     lineHeight: 20,
+  },
+  footerSpacing: {
+    marginBottom: 10,
   },
 });

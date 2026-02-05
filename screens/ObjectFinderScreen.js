@@ -322,12 +322,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 25,
     marginTop: 10,
-    gap: 10,
   },
   searchingText: {
     color: '#fff',
     fontSize: 14,
     fontWeight: 'bold',
+    marginLeft: 10,
   },
   guidanceBox: {
     backgroundColor: 'rgba(16, 185, 129, 0.95)',
@@ -337,10 +337,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
   },
   guidanceIcon: {
     fontSize: 28,
+    marginRight: 12,
   },
   guidanceText: {
     flex: 1,
@@ -429,7 +429,6 @@ const styles = StyleSheet.create({
   },
   quickSearchButtons: {
     flexDirection: 'row',
-    gap: 8,
   },
   quickBtn: {
     flex: 1,
@@ -438,6 +437,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: 'rgba(59, 130, 246, 0.3)',
+    marginRight: 8,
   },
   quickBtnText: {
     color: '#60a5fa',
