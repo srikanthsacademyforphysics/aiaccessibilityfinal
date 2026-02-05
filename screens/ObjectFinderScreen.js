@@ -10,7 +10,7 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import { Camera } from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as Speech from 'expo-speech';
 import axios from 'axios';
 
@@ -18,7 +18,7 @@ import axios from 'axios';
 const BACKEND_URL = 'https://aiaccessibilityfinalbackend.vercel.app';
 
 export default function ObjectFinderScreen({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [isSearching, setIsSearching] = useState(false);
   const [objectToFind, setObjectToFind] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -36,14 +36,17 @@ export default function ObjectFinderScreen({ navigation }) {
     };
   }, []);
 
-  const setupCamera = async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasPermission(status === 'granted');
-    
-    if (status === 'granted') {
+  useEffect(() => {
+    if (permission?.granted) {
       setTimeout(() => {
         speak('Object Finder ready. Enter what you want to find and tap Start Search.');
       }, 500);
+    }
+  }, [permission]);
+
+  const setupCamera = async () => {
+    if (!permission?.granted) {
+      await requestPermission();
     }
   };
 
@@ -91,6 +94,7 @@ export default function ObjectFinderScreen({ navigation }) {
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.5,
         base64: true,
+        skipProcessing: false,
       });
 
       const response = await axios.post(
@@ -122,7 +126,7 @@ export default function ObjectFinderScreen({ navigation }) {
     }
   };
 
-  if (hasPermission === null) {
+  if (!permission) {
     return (
       <View style={styles.centerContainer}>
         <ActivityIndicator size="large" color="#10b981" />
@@ -131,7 +135,7 @@ export default function ObjectFinderScreen({ navigation }) {
     );
   }
 
-  if (hasPermission === false) {
+  if (!permission.granted) {
     return (
       <View style={styles.centerContainer}>
         <Text style={styles.errorText}>Camera access required</Text>
@@ -145,10 +149,10 @@ export default function ObjectFinderScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {/* Camera */}
-      <Camera 
+      <CameraView 
         style={styles.camera} 
         ref={cameraRef}
-        type={Camera.Constants.Type.back}
+        facing="back"
       />
       
       {/* Overlay */}

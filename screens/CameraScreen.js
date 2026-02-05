@@ -8,7 +8,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import { Camera } from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as Speech from 'expo-speech';
 import axios from 'axios';
 
@@ -16,7 +16,7 @@ import axios from 'axios';
 const BACKEND_URL = 'https://aiaccessibilityfinalbackend.vercel.app';
 
 export default function CameraScreen({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [isProcessing, setIsProcessing] = useState(false);
   const [messages, setMessages] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState('');
@@ -24,17 +24,18 @@ export default function CameraScreen({ navigation }) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    setupCamera();
-  }, []);
-
-  const setupCamera = async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasPermission(status === 'granted');
-    
-    if (status === 'granted') {
+    if (permission?.granted) {
       setTimeout(() => {
         speak('Camera ready. Tap any button to ask a question about what the camera sees.');
       }, 500);
+    } else if (permission && !permission.granted && !permission.canAskAgain) {
+      // Permission denied, can't ask again
+    }
+  }, [permission]);
+
+  const setupCamera = async () => {
+    if (!permission?.granted) {
+      await requestPermission();
     }
   };
 
@@ -59,6 +60,7 @@ export default function CameraScreen({ navigation }) {
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.7,
         base64: true,
+        skipProcessing: false,
       });
 
       speak('Analyzing');
@@ -90,7 +92,7 @@ export default function CameraScreen({ navigation }) {
     }
   };
 
-  if (hasPermission === null) {
+  if (!permission) {
     return (
       <View style={styles.centerContainer}>
         <ActivityIndicator size="large" color="#3b82f6" />
@@ -99,7 +101,7 @@ export default function CameraScreen({ navigation }) {
     );
   }
 
-  if (hasPermission === false) {
+  if (!permission.granted) {
     return (
       <View style={styles.centerContainer}>
         <Text style={styles.errorText}>Camera access required</Text>
@@ -113,10 +115,10 @@ export default function CameraScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {/* Camera */}
-      <Camera 
+      <CameraView 
         style={styles.camera} 
         ref={cameraRef}
-        type={Camera.Constants.Type.back}
+        facing="back"
       />
       
       {/* Overlay */}
