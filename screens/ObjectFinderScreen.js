@@ -15,7 +15,7 @@ import * as Speech from 'expo-speech';
 import axios from 'axios';
 
 // Backend API URL - Vercel deployment
-const BACKEND_URL = 'https://aiaccessibilityfinal.vercel.app';
+const BACKEND_URL = 'https://aiaccessibilityfinalbackend.vercel.app';
 
 export default function ObjectFinderScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
