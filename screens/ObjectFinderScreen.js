@@ -14,10 +14,8 @@ import { Camera } from 'expo-camera';
 import * as Speech from 'expo-speech';
 import axios from 'axios';
 
-// 🔥 CHANGE THIS TO YOUR VERCEL URL
-// TODO: Replace with your actual Vercel backend URL
-// Example: 'https://ai-accessibility-backend.vercel.app'
-const BACKEND_URL = 'https://your-vercel-url.vercel.app';
+// Backend API URL - Vercel deployment
+const BACKEND_URL = 'https://aiaccessibilityfinal.vercel.app';
 
 export default function ObjectFinderScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
