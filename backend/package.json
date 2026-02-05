@@ -2,7 +2,7 @@
   "name": "ai-accessibility-backend",
   "version": "1.0.0",
   "description": "Backend API for AI Accessibility Mobile App",
-  "main": "api/analyze.js",
+  "type": "module",
   "scripts": {
     "dev": "vercel dev"
   },
